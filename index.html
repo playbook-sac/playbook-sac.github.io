@@ -26,8 +26,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   overflow:hidden;
 }
 .sidebar-brand{padding:18px 14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0}
-.logo{width:36px;height:36px;border-radius:8px;overflow:hidden;background:#111;border:1px solid #333;flex-shrink:0;display:flex;align-items:center;justify-content:center}
-.logo img{width:28px;height:28px;object-fit:contain}
+.logo{width:40px;height:40px;border-radius:9px;overflow:hidden;background:#fff;border:1px solid #333;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;line-height:1}
+.logo img{width:100%;height:100%;object-fit:contain;padding:3px;display:block}
 .brand-text h1{font-size:13px;font-weight:700;line-height:1.2;color:var(--text)}
 .brand-text p{font-size:10px;color:var(--text2);margin-top:1px}
 
@@ -72,7 +72,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .section-label{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
 
 /* ══ PROCESS CARDS ══ */
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#tab-processos .page{max-width:none}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:start}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .2s;cursor:pointer}
 .card:hover{border-color:var(--accent)}
 .card.open{border-color:var(--accent)}
@@ -113,8 +114,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .map-chevron{width:18px;height:18px;border-radius:50%;background:var(--surface2);display:flex;align-items:center;justify-content:center;transition:transform .25s,background .2s}
 .map-chevron.open{transform:rotate(180deg);background:var(--accent)}
 .map-chevron.open svg{color:#fff}
-#map-container{border:1px solid var(--accent);border-top:none;border-radius:0 0 var(--radius) var(--radius);overflow:hidden;margin-bottom:14px}
-#map{height:380px;width:100%}
+#map-container{border:1px solid var(--accent);border-radius:var(--radius);overflow:hidden}
+#map{height:420px;width:100%}
 
 .gavioes-tip{background:transparent!important;border:none!important;box-shadow:none!important;padding:0!important}
 .gavioes-tip::before{display:none!important}
@@ -131,30 +132,33 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 
 /* ══ UNIT CARDS ══ */
 .unit-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-.unit-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;transition:border-color .2s}
+.unit-card{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:10px 11px;transition:border-color .2s;cursor:pointer}
 .unit-card:hover{border-color:var(--border)}
 .unit-card.open{border-color:var(--accent)}
 .unit-card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px}
-.unit-card-name{font-size:13px;font-weight:700;color:var(--accent);cursor:pointer;transition:opacity .2s;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}
+.unit-card-name{font-size:12px;font-weight:700;color:var(--accent);cursor:pointer;transition:opacity .2s;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}
 .unit-card-name:hover{opacity:.75}
 .unit-card-model{font-size:10px;font-weight:600;padding:2px 6px;border-radius:5px;flex-shrink:0}
 .model-propria{background:#1e3a5f;color:#60a5fa}
 .model-franquia{background:#2d1f00;color:#fbbf24}
-.unit-card-addr{font-size:11px;color:var(--text2);margin-bottom:6px;line-height:1.4}
-.unit-card-hours{font-size:11px;color:var(--green);font-weight:600;display:flex;align-items:center;gap:5px}
+.unit-card-addr{font-size:10px;color:var(--text2);margin-bottom:5px;line-height:1.35}
+.unit-card-hours{font-size:10px;color:var(--green);font-weight:600;display:flex;align-items:center;gap:5px}
 .unit-expand-btn{margin-top:8px;font-size:10px;font-weight:600;color:var(--text2);background:none;border:none;cursor:pointer;padding:0;display:flex;align-items:center;gap:4px;transition:color .2s}
 .unit-expand-btn:hover{color:var(--text)}
 .unit-card-body{display:none;margin-top:10px;border-top:1px solid var(--border);padding-top:10px}
 .unit-card.open .unit-card-body{display:block}
 /* Unit layout: cards left + preview right */
-.units-layout{display:flex;gap:16px;align-items:flex-start;margin-top:14px}
-.unit-cards{flex:1;min-width:0;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:0}
-.unit-preview{width:260px;flex-shrink:0;position:sticky;top:70px}
+#tab-unidades .page{max-width:none}
+.units-layout{display:flex;gap:20px;align-items:flex-start;margin-top:14px}
+.unit-cards{flex:1 1 auto;min-width:0;max-width:680px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:0;align-items:start}
+.unit-side{flex:1 1 auto;min-width:340px;position:sticky;top:70px;display:flex;flex-direction:column;gap:12px}
+.side-label{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.07em}
+.unit-preview{width:100%}
 .unit-preview-inner{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .2s}
 .unit-preview-inner.has-img{border-color:var(--accent)}
-.preview-img{width:100%;height:220px;object-fit:cover;display:block;transition:opacity .3s}
-.preview-placeholder{width:100%;height:220px;background:var(--surface2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--text2);font-size:12px}
-.preview-loading{width:100%;height:220px;background:var(--surface2);display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:12px;gap:8px}
+.preview-img{width:100%;height:260px;object-fit:cover;display:block;transition:opacity .3s}
+.preview-placeholder{width:100%;height:260px;background:var(--surface2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--text2);font-size:12px}
+.preview-loading{width:100%;height:260px;background:var(--surface2);display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:12px;gap:8px}
 .preview-info{padding:12px 14px}
 .preview-name{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:4px}
 .preview-addr{font-size:11px;color:var(--text2);line-height:1.5}
@@ -165,7 +169,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .unit-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
 .unit-chip{background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:2px 7px;font-size:10px;color:var(--text2)}
 .unit-pcd{display:inline-flex;align-items:center;gap:3px;background:#1a2e1a;border:1px solid #166534;border-radius:4px;padding:2px 7px;font-size:10px;color:#4ade80;margin-top:4px}
-@media(max-width:700px){.units-layout{flex-direction:column}.unit-preview{width:100%;position:static}.preview-img{height:180px}}
+@media(max-width:1100px){.unit-cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.units-layout{flex-direction:column}.unit-side{width:100%;min-width:0;position:static}.unit-cards{max-width:none;grid-template-columns:repeat(2,1fr)}.preview-img{height:200px}}
 
 /* ══ MAP FLASH ══ */
 @keyframes markerPulse{0%{box-shadow:0 0 0 0 rgba(229,62,62,.7)}70%{box-shadow:0 0 0 12px rgba(229,62,62,0)}100%{box-shadow:0 0 0 0 rgba(229,62,62,0)}}
@@ -193,7 +198,54 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   .sidebar-brand{padding:14px;justify-content:center}
   .nav-btn{justify-content:center;padding:12px 0}
 }
+@media(max-width:1200px){.cards{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:850px){.cards{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:500px){.cards,.unit-cards{grid-template-columns:1fr}}
+
+/* ══ PROJETOS ══ */
+#tab-projetos .page{max-width:none}
+.project-list{display:flex;flex-direction:column;gap:10px}
+.project-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);display:flex;align-items:stretch;cursor:pointer;overflow:hidden;transition:border-color .2s;width:100%}
+.project-card:hover{border-color:var(--accent)}
+.project-card.open{border-color:var(--accent)}
+.project-name{flex:1;display:flex;align-items:center;gap:11px;padding:18px 20px;font-size:15px;font-weight:700;color:var(--accent)}
+.project-card.open .project-name{flex:0 0 260px}
+.proj-chevron{width:20px;height:20px;border-radius:50%;background:var(--surface2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .25s,background .2s}
+.project-card.open .proj-chevron{transform:rotate(180deg);background:var(--accent)}
+.project-card.open .proj-chevron svg{color:#fff}
+.project-divider{flex:0 0 1px;align-self:stretch;background:linear-gradient(180deg,transparent,var(--border) 12%,var(--border) 88%,transparent);margin:0 4px;transform:skewX(-9deg);display:none}
+.project-card.open .project-divider{display:block}
+.project-desc{display:none}
+.project-card.open .project-desc{display:block;flex:1;padding:18px 22px;color:var(--text2);font-size:13px;line-height:1.7}
+.project-desc p{margin-bottom:11px}
+.project-desc p:last-child{margin-bottom:0}
+.project-desc strong{color:var(--text)}
+.proj-status{margin-left:auto;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.status-dev{background:#2d1f00;color:#fbbf24}
+.status-done{background:#14532d;color:#4ade80}
+@media(max-width:640px){.project-card{flex-direction:column}.project-name{flex-basis:auto}.project-divider{display:none!important}.project-card.open .project-desc{border-top:1px solid var(--border)}}
+
+/* ══ SULTS CONTACT BTN ══ */
+.side-contact-btn.sults:hover{border-color:#a78bfa;color:#a78bfa}
+
+/* ══ MODAL ══ */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
+.modal-overlay.show{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;max-width:460px;width:100%;box-shadow:0 24px 70px rgba(0,0,0,.7);overflow:hidden;animation:modalIn .25s ease}
+@keyframes modalIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
+.modal-header h2{font-size:16px;font-weight:700;color:var(--text)}
+.modal-close{background:var(--surface2);border:none;color:var(--text2);width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:14px;transition:all .2s}
+.modal-close:hover{background:var(--accent);color:#fff}
+.modal-body{padding:18px 20px}
+.sults-note{background:#2d1a00;border:1px solid #92400e;color:#fcd34d;border-radius:9px;padding:10px 12px;font-size:12px;line-height:1.5;margin-bottom:13px;display:flex;gap:7px}
+.sults-sub{font-size:12px;color:var(--text2);line-height:1.55;margin-bottom:15px}
+.sults-sub strong{color:var(--text)}
+.sults-list{display:flex;flex-direction:column;gap:8px}
+.sults-row{display:flex;align-items:center;gap:12px;background:var(--surface2);border:1px solid var(--border);border-radius:11px;padding:11px 14px}
+.sults-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#e53e3e,#7c2d2d);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;flex-shrink:0}
+.sults-name{font-weight:700;font-size:13px;color:var(--text)}
+.sults-time{margin-left:auto;font-size:12px;color:#4ade80;font-weight:700;background:rgba(34,197,94,.12);border:1px solid #166534;padding:4px 11px;border-radius:20px;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -216,6 +268,11 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
       <span class="nav-label">Unidades</span>
       <span class="nav-badge" id="badge-unidades">90</span>
     </button>
+    <button class="nav-btn" data-tab="projetos">
+      <span class="nav-icon">🚀</span>
+      <span class="nav-label">Projetos</span>
+      <span class="nav-badge" id="badge-projetos">1</span>
+    </button>
   </nav>
 
   <div class="sidebar-contacts">
@@ -231,6 +288,10 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
       <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       Transferência
     </a>
+    <button class="side-contact-btn sults" onclick="openSults()">
+      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Colaboradores SULTS
+    </button>
   </div>
 </aside>
 
@@ -265,39 +326,55 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
   <!-- UNIDADES -->
   <div class="tab-panel" id="tab-unidades">
     <div class="page">
-      <div class="map-header" onclick="toggleMap()">
-        <div class="map-header-left">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          Ver no mapa
-          <span class="map-badge">90 unidades</span>
-        </div>
-        <div class="map-chevron" id="map-chevron">
-          <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
-        </div>
-      </div>
-      <div id="map-container" style="display:none"><div id="map"></div></div>
-      <div class="section-label" id="unit-label" style="margin-top:14px">90 unidades</div>
+      <div class="section-label" id="unit-label">90 unidades</div>
       <div class="units-layout">
         <div class="unit-cards" id="unit-cards"></div>
-        <div class="unit-preview" id="unit-preview">
-          <div class="unit-preview-inner" id="unit-preview-inner">
-            <div class="preview-placeholder" id="preview-placeholder">
-              <span style="font-size:36px">🦅</span>
-              <span>Selecione uma unidade</span>
-            </div>
-            <img class="preview-img" id="preview-img" src="" alt="" style="display:none"
-              onerror="this.style.display='none';document.getElementById('preview-placeholder').style.display='flex'">
-            <div class="preview-info" id="preview-info" style="display:none">
-              <div class="preview-name" id="preview-name"></div>
-              <div class="preview-addr" id="preview-addr"></div>
-              <div class="preview-hours" id="preview-hours"></div>
+        <aside class="unit-side">
+          <div class="side-label">🗺️ Mapa das unidades</div>
+          <div id="map-container"><div id="map"></div></div>
+          <div class="unit-preview" id="unit-preview">
+            <div class="unit-preview-inner" id="unit-preview-inner">
+              <div class="preview-placeholder" id="preview-placeholder">
+                <span style="font-size:36px">🦅</span>
+                <span>Selecione uma unidade</span>
+              </div>
+              <img class="preview-img" id="preview-img" src="" alt="" style="display:none"
+                onerror="this.style.display='none';document.getElementById('preview-placeholder').style.display='flex'">
+              <div class="preview-info" id="preview-info" style="display:none">
+                <div class="preview-name" id="preview-name"></div>
+                <div class="preview-addr" id="preview-addr"></div>
+                <div class="preview-hours" id="preview-hours"></div>
+              </div>
             </div>
           </div>
-        </div>
+        </aside>
       </div>
     </div>
   </div>
+
+  <!-- PROJETOS -->
+  <div class="tab-panel" id="tab-projetos">
+    <div class="page">
+      <div class="section-label">Projetos do SAC — em arquitetura</div>
+      <div class="project-list" id="project-list"></div>
+    </div>
+  </div>
 </main>
+
+<!-- ══ MODAL COLABORADORES SULTS ══ -->
+<div class="modal-overlay" id="sults-modal" onclick="if(event.target===this)closeSults()">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>👥 Colaboradores SULTS</h2>
+      <button class="modal-close" onclick="closeSults()" aria-label="Fechar">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="sults-note"><span>⚠️</span><div>Sempre que possível, chame os consultores <strong>dentro do horário de trabalho</strong> de cada um.</div></div>
+      <p class="sults-sub">Responsáveis pelo atendimento via WhatsApp nos grupos <strong>Comercial Geral</strong> e <strong>SAC/Inside Sales e Liderança</strong>.</p>
+      <div class="sults-list" id="sults-list"></div>
+    </div>
+  </div>
+</div>
 
 <div class="toast" id="toast"></div>
 
@@ -317,7 +394,7 @@ document.querySelectorAll('.nav-btn').forEach(btn=>{
     document.getElementById('search').placeholder=tab==='unidades'?'Buscar unidade...':'Buscar processo...';
     document.getElementById('search').value='';
     if(tab==='processos'){searchTerm='';renderCards();}
-    if(tab==='unidades')renderUnits('');
+    if(tab==='unidades'){renderUnits('');ensureMap();}
   });
 });
 document.getElementById('search').addEventListener('input',e=>{
@@ -511,7 +588,7 @@ const unitThumbs={
   "OCEANIA":B+"60/1-60280d1c.webp","PALMAS":B+"5f/4779d45c-6679-4f2d-8e17-d69944e13723-5f67abfd.webp",
   "PARAPUÃ":B+"84/6-849100a5.webp","PATTEO KLABIN":B+"1e/5-1ec307db.webp",
   "PAULISTA":B+"e9/1-e905767d.webp","PENHA":B+"9c/3-9cb24f99.webp",
-  "PERDIZES":B+"64/2-642ae522.webp","PINHEIROS":B+"94/01-9469f3bb.webp",
+  "PERDIZES":B+"64/2-642ae522.webp","PIMENTAS":B+"ed/1-eda37138.webp","PINHEIROS":B+"94/01-9469f3bb.webp",
   "PIRITUBA":B+"1c/1-1cd9fa03.webp","POA":B+"7f/01-7f33dce7.webp",
   "PONTE ESTAIADA":B+"37/1-3714677a.webp","PRAIA GRANDE":B+"77/2-77ed0849.webp",
   "RECIFE":B+"f7/1-f74e4b4f.webp","RIBEIRÃO":B+"f3/4779d45c-6679-4f2d-8e17-d69944e13723-f3aa39e7.webp",
@@ -546,9 +623,9 @@ function renderUnits(q){
     const chips=(d.services||[]).map(s=>`<span class="unit-chip">${SVC_ICONS[s]||''} ${s}</span>`).join('');
     const modelClass=d.model==='Franquia'?'model-franquia':'model-propria';
     const id='uc-'+normName(u.nome);
-    return`<div class="unit-card" id="${id}" onclick="selectUnit('${u.nome}',${u.lat},${u.lon})">
+    return`<div class="unit-card" id="${id}" onclick="unitCardClick(this,'${u.nome}',${u.lat},${u.lon})">
       <div class="unit-card-header">
-        <div class="unit-card-name">${u.nome}</div>
+        <div class="unit-card-name" onclick="event.stopPropagation();flyToUnit('${u.nome}',${u.lat},${u.lon})" title="Clique para ver no mapa">${u.nome}</div>
         <span class="unit-card-model ${modelClass}">${d.model||''}</span>
       </div>
       <div class="unit-card-addr">📍 ${u.end}</div>
@@ -560,18 +637,11 @@ function renderUnits(q){
         ${chips?`<div class="unit-chips">${chips}</div>`:''}
         ${d.pcd?`<span class="unit-pcd">♿ Acessível PCD</span>`:''}
       </div>
-      <button class="unit-expand-btn" onclick="event.stopPropagation();toggleUnit(this)">
-        <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
-        Ver detalhes
-      </button>
     </div>`}).join('');
 }
-function toggleUnit(btn){
-  const card=btn.closest('.unit-card');
+function unitCardClick(card,nome,lat,lon){
   card.classList.toggle('open');
-  btn.innerHTML=card.classList.contains('open')
-    ?'<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></svg> Fechar'
-    :'<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg> Ver detalhes';
+  selectUnit(nome,lat,lon);
 }
 
 function selectUnit(nome, lat, lon){
@@ -610,13 +680,9 @@ renderUnits('');
 
 // ── MAP ──
 let mapInstance=null;
-function toggleMap(){
-  const c=document.getElementById('map-container'),ch=document.getElementById('map-chevron'),h=document.querySelector('.map-header');
-  const open=c.style.display!=='none';
-  c.style.display=open?'none':'block';
-  ch.classList.toggle('open',!open);h.classList.toggle('open',!open);
-  if(!open&&!mapInstance)initMap();
-  else if(!open)setTimeout(()=>mapInstance.invalidateSize(),100);
+function ensureMap(){
+  if(!mapInstance)initMap();
+  setTimeout(()=>{if(mapInstance)mapInstance.invalidateSize()},160);
 }
 
 function buildTooltip(nome,end,d){
@@ -645,14 +711,9 @@ function initMap(){
 
 function flyToUnit(nome,lat,lon){
   selectUnit(nome,lat,lon);
-  const container=document.getElementById('map-container');
-  if(container.style.display==='none'){
-    toggleMap();
-    setTimeout(()=>_doFly(nome,lat,lon),600);
-  } else {
-    _doFly(nome,lat,lon);
-  }
-  setTimeout(()=>container.scrollIntoView({behavior:'smooth',block:'start'}),100);
+  const fresh=!mapInstance;
+  ensureMap();
+  setTimeout(()=>_doFly(nome,lat,lon),fresh?500:60);
 }
 
 function _doFly(nome,lat,lon){
@@ -669,6 +730,49 @@ function _doFly(nome,lat,lon){
     },1300);
   }
 }
+
+// ══════════ PROJETOS ══════════
+const projetos=[
+  {nome:"Playbook",status:"dev",desc:`<p>O <strong>Playbook</strong> é uma ferramenta que auxiliará os consultores a entenderem os processos que temos com o SAC, como por exemplo, o que é o <strong>chargeback</strong>?, como funciona o <strong>trancamento</strong>?, por onde realizar a alteração de data de cobrança do aluno?</p>
+  <p>Nele, além de termos todos os processos detalhados e com <strong>vídeos</strong> de como é realizado, também temos as <strong>unidades</strong>, com seu endereço, foto de sua fachada e também dados dessas unidades, como valor do plano, qual plano do <strong>Gympass/Wellhub</strong> é aceito, horário de funcionamento, se é uma unidade premium ou não.</p>
+  <p>Também será disponibilizado nele o andamento dos projetos que iremos realizar, com seu nome e prazo de entrega, com status de <strong>em desenvolvimento</strong> e <strong>entregue</strong>.</p>`}
+];
+const PROJ_STATUS={dev:{cls:'status-dev',txt:'Em desenvolvimento'},done:{cls:'status-done',txt:'Entregue'}};
+function renderProjects(){
+  const el=document.getElementById('project-list');
+  el.innerHTML=projetos.map(p=>{
+    const st=PROJ_STATUS[p.status]||PROJ_STATUS.dev;
+    return`<div class="project-card" onclick="toggleProject(this)">
+      <div class="project-name">
+        <span class="proj-chevron"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span>
+        <span>${p.nome}</span>
+        <span class="proj-status ${st.cls}">${st.txt}</span>
+      </div>
+      <div class="project-divider"></div>
+      <div class="project-desc">${p.desc}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('badge-projetos').textContent=projetos.length;
+}
+function toggleProject(card){card.classList.toggle('open')}
+renderProjects();
+
+// ══════════ COLABORADORES SULTS ══════════
+const colaboradores=[
+  {nome:"Carlos",horario:"08:00 às 16:00"},
+  {nome:"David",horario:"08:00 às 16:00"},
+  {nome:"Paulo",horario:"10:00 às 18:00"},
+  {nome:"João",horario:"14:00 às 22:00"}
+];
+function renderSults(){
+  document.getElementById('sults-list').innerHTML=colaboradores.map(c=>
+    `<div class="sults-row"><div class="sults-avatar">${c.nome[0]}</div><span class="sults-name">${c.nome}</span><span class="sults-time">🕐 ${c.horario}</span></div>`
+  ).join('');
+}
+renderSults();
+function openSults(){document.getElementById('sults-modal').classList.add('show')}
+function closeSults(){document.getElementById('sults-modal').classList.remove('show')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSults()});
 
 // ══ UTILS ══
 function copyEmail(){navigator.clipboard.writeText('sac@academiagavioes.com.br').then(()=>showToast('E-mail copiado!'))}
