@@ -250,6 +250,15 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .sults-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#e53e3e,#7c2d2d);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;flex-shrink:0}
 .sults-name{font-weight:700;font-size:13px;color:var(--text)}
 .sults-time{margin-left:auto;font-size:12px;color:#4ade80;font-weight:700;background:rgba(34,197,94,.12);border:1px solid #166534;padding:4px 11px;border-radius:20px;white-space:nowrap}
+.sults-main{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0}
+.sults-phone{font-size:11px;color:var(--text2);text-decoration:none;width:fit-content}
+.sults-phone:hover{color:var(--green)}
+.status-pill{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;padding:1px 8px;border-radius:20px}
+.status-pill::before{content:"";width:6px;height:6px;border-radius:50%;display:inline-block;flex-shrink:0}
+.status-pill.on{background:rgba(34,197,94,.15);color:#4ade80}
+.status-pill.on::before{background:#22c55e;box-shadow:0 0 6px #22c55e}
+.status-pill.off{background:rgba(148,163,184,.15);color:#94a3b8}
+.status-pill.off::before{background:#94a3b8}
 
 /* ══ AUTH / EDIÇÃO ══ */
 .topbar-auth{position:fixed;top:12px;right:16px;z-index:400;display:flex;align-items:center;gap:8px}
@@ -306,7 +315,7 @@ body:not(.authed) #login-modal .modal-close{display:none}
 <!-- ══ SIDEBAR ══ -->
 <aside class="sidebar">
   <div class="sidebar-brand">
-    <div class="logo"><img src="https://academiagavioes24h.com.br/apps/transferencia/favicon.ico" alt="" onerror="this.parentElement.innerHTML='🦅'"></div>
+    <div class="logo"><img src="https://academiagavioes24h.com.br/apps/transferencia/favicon.ico" alt="" onerror="this.parentElement.innerHTML=''"></div>
     <div class="brand-text"><h1>Playbook</h1><p>Gaviões 24h</p></div>
   </div>
 
@@ -388,7 +397,7 @@ body:not(.authed) #login-modal .modal-close{display:none}
           <div class="unit-preview" id="unit-preview">
             <div class="unit-preview-inner" id="unit-preview-inner">
               <div class="preview-placeholder" id="preview-placeholder">
-                <span style="font-size:36px">🦅</span>
+                <img src="https://academiagavioes24h.com.br/apps/transferencia/favicon.ico" alt="" style="width:44px;height:44px;object-fit:contain;border-radius:8px">
                 <span>Selecione uma unidade</span>
               </div>
               <img class="preview-img" id="preview-img" src="" alt="" style="display:none"
@@ -447,7 +456,7 @@ body:not(.authed) #login-modal .modal-close{display:none}
 <!-- ══ MODAL LOGIN ══ -->
 <div class="modal-overlay" id="login-modal" onclick="if(event.target===this)closeLogin()">
   <div class="modal" style="max-width:380px">
-    <div class="modal-header"><h2>🦅 Playbook Gaviões 24h</h2><button class="modal-close" onclick="closeLogin()" aria-label="Fechar">✕</button></div>
+    <div class="modal-header"><h2><img src="https://academiagavioes24h.com.br/apps/transferencia/favicon.ico" alt="" style="width:22px;height:22px;object-fit:contain;border-radius:5px;vertical-align:-5px;margin-right:6px">Playbook Gaviões 24h</h2><button class="modal-close" onclick="closeLogin()" aria-label="Fechar">✕</button></div>
     <div class="modal-body">
       <div class="login-sub">Faça login para acessar. As unidades usam o login de <strong>visualização</strong>; a equipe usa o login de <strong>administrador</strong> para editar.</div>
       <label class="fld">E-mail<input id="login-email" type="email" autocomplete="username" placeholder="seu@email.com"></label>
@@ -802,7 +811,7 @@ function initMap(){
 function addUnitMarkers(){
   if(!mapInstance)return;
   Object.keys(markerMap).forEach(k=>{mapInstance.removeLayer(markerMap[k]);delete markerMap[k];});
-  const icon=L.divIcon({className:'',html:`<div style="width:32px;height:32px;border-radius:6px;overflow:hidden;box-shadow:0 2px 10px rgba(229,62,62,.5)"><img src="${LOGO}" style="width:32px;height:32px;object-fit:cover" onerror="this.parentElement.style.background='#111';this.parentElement.innerHTML='🦅'"></div>`,iconSize:[32,32],iconAnchor:[16,16],popupAnchor:[0,-20]});
+  const icon=L.divIcon({className:'',html:`<div style="width:32px;height:32px;border-radius:6px;overflow:hidden;box-shadow:0 2px 10px rgba(229,62,62,.5)"><img src="${LOGO}" style="width:32px;height:32px;object-fit:cover" onerror="this.parentElement.style.background='#111';this.parentElement.innerHTML=''"></div>`,iconSize:[32,32],iconAnchor:[16,16],popupAnchor:[0,-20]});
   unidades.forEach(u=>{
     if(typeof u.lat!=='number'||typeof u.lon!=='number')return;
     const m=L.marker([u.lat,u.lon],{icon}).addTo(mapInstance)
@@ -860,19 +869,34 @@ function toggleProject(card){card.classList.toggle('open')}
 renderProjects();
 
 // ══════════ COLABORADORES SULTS ══════════
-const SEED_colaboradores=[
-  {nome:"Carlos",horario:"08:00 às 16:00"},
-  {nome:"David",horario:"08:00 às 16:00"},
-  {nome:"Paulo",horario:"10:00 às 18:00"},
-  {nome:"João",horario:"14:00 às 22:00"}
+// Lista fixa no código (muda pouco). O status On-line/Off-line é calculado
+// automaticamente comparando a hora atual com o horário de atendimento.
+const SULTS=[
+  {nome:"Carlos", ini:"08:00", fim:"16:00", tel:"11 97372-7537"},
+  {nome:"David",  ini:"08:00", fim:"16:00", tel:"11 98839-7291"},
+  {nome:"Paulo",  ini:"10:00", fim:"18:00", tel:"11 95662-2204"},
+  {nome:"João",   ini:"14:00", fim:"22:00", tel:"11 95312-7374"}
 ];
+const SEED_colaboradores=SULTS.map(c=>({nome:c.nome,horario:c.ini+" às "+c.fim}));
+function _toMin(hhmm){const p=String(hhmm).split(':');return (+p[0])*60+(+(p[1]||0));}
+function isSultOnline(c){const n=new Date();const cur=n.getHours()*60+n.getMinutes();return cur>=_toMin(c.ini)&&cur<_toMin(c.fim);}
 function renderSults(){
-  document.getElementById('sults-list').innerHTML=colaboradores.map(c=>
-    `<div class="sults-row"><div class="sults-avatar">${c.nome[0]}</div><span class="sults-name">${c.nome}</span><span class="sults-time">🕐 ${c.horario}</span></div>`
-  ).join('');
+  const wrap=document.getElementById('sults-list'); if(!wrap)return;
+  wrap.innerHTML=SULTS.map(c=>{
+    const on=isSultOnline(c);
+    const zap='https://wa.me/55'+c.tel.replace(/\D/g,'');
+    return `<div class="sults-row">
+      <div class="sults-avatar">${c.nome[0]}</div>
+      <div class="sults-main">
+        <div class="sults-name">${c.nome} <span class="status-pill ${on?'on':'off'}">${on?'On-line':'Off-line'}</span></div>
+        <a class="sults-phone" href="${zap}" target="_blank" onclick="event.stopPropagation()">📱 ${c.tel}</a>
+      </div>
+      <span class="sults-time">🕐 ${c.ini} às ${c.fim}</span>
+    </div>`;
+  }).join('');
 }
 renderSults();
-function openSults(){document.getElementById('sults-modal').classList.add('show')}
+function openSults(){renderSults();document.getElementById('sults-modal').classList.add('show')}
 function closeSults(){document.getElementById('sults-modal').classList.remove('show')}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSults()});
 
