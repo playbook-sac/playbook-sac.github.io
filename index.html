@@ -308,6 +308,31 @@ body:not(.authed) .fab-add{display:none!important}
 body:not(.authed) #login-modal{display:flex!important}
 body:not(.authed) #login-modal .modal-close{display:none}
 .login-sub{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:14px}
+/* ══ SUGESTÕES ══ */
+.sug-intro{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:12px;max-width:620px}
+.add-btn-always{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#fff;border:none;padding:10px 16px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:16px;transition:opacity .2s}
+.add-btn-always:hover{opacity:.9}
+.sugestoes-list{display:flex;flex-direction:column;gap:10px;max-width:760px}
+.sug-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px}
+.sug-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.sug-sugestao{font-size:14px;font-weight:600;color:var(--text);line-height:1.45}
+.sug-date{font-size:10px;color:var(--text2);white-space:nowrap;flex-shrink:0;margin-top:2px}
+.sug-motivo{font-size:12px;color:var(--text2);line-height:1.55;margin-top:9px;background:var(--surface2);border-radius:8px;padding:9px 12px}
+.sug-motivo strong{color:var(--text)}
+.sug-foot{display:flex;align-items:center;gap:14px;margin-top:11px;flex-wrap:wrap}
+.sug-autor,.sug-unidade{font-size:11px;color:var(--text2);font-weight:600}
+.sug-foot .admin-row{margin:0;padding:0;border:none;margin-left:auto}
+/* ══ FAQ ══ */
+.faq-list{display:flex;flex-direction:column;gap:8px;max-width:760px}
+.faq-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:border-color .2s}
+.faq-card:hover{border-color:var(--accent)}
+.faq-card.open{border-color:var(--accent)}
+.faq-q{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;font-size:13px;font-weight:700;color:var(--text)}
+.faq-chev{transition:transform .25s;color:var(--text2);font-size:15px;flex-shrink:0}
+.faq-card.open .faq-chev{transform:rotate(180deg);color:var(--accent)}
+.faq-a{display:none;padding:0 16px 14px;font-size:12px;color:var(--text2);line-height:1.65;border-top:1px solid var(--border)}
+.faq-card.open .faq-a{display:block;padding-top:12px}
+.faq-a strong{color:var(--text)}
 </style>
 </head>
 <body>
@@ -334,6 +359,16 @@ body:not(.authed) #login-modal .modal-close{display:none}
       <span class="nav-icon">🚀</span>
       <span class="nav-label">Projetos</span>
       <span class="nav-badge" id="badge-projetos">1</span>
+    </button>
+    <button class="nav-btn" data-tab="sugestoes">
+      <span class="nav-icon">💡</span>
+      <span class="nav-label">Sugestões</span>
+      <span class="nav-badge" id="badge-sugestoes">0</span>
+    </button>
+    <button class="nav-btn" data-tab="faq">
+      <span class="nav-icon">❓</span>
+      <span class="nav-label">FAQ</span>
+      <span class="nav-badge" id="badge-faq">0</span>
     </button>
   </nav>
 
@@ -421,6 +456,24 @@ body:not(.authed) #login-modal .modal-close{display:none}
       <div class="project-list" id="project-list"></div>
     </div>
   </div>
+
+  <!-- SUGESTOES -->
+  <div class="tab-panel" id="tab-sugestoes">
+    <div class="page">
+      <div class="section-label">Sugestões dos consultores</div>
+      <div class="sug-intro">Tem uma ideia pra melhorar o trabalho? Envie sua sugestão! Preencha seu nome, sua unidade, a sugestão e um exemplo ou o motivo.</div>
+      <button class="add-btn-always" onclick="openSugestaoForm()">💡 Enviar nova sugestão</button>
+      <div class="sugestoes-list" id="sugestoes-list"></div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="tab-panel" id="tab-faq">
+    <div class="page">
+      <div class="section-label">FAQ — Perguntas frequentes</div>
+      <div class="faq-list" id="faq-list"></div>
+    </div>
+  </div>
 </main>
 
 <!-- ══ MODAL COLABORADORES SULTS ══ -->
@@ -482,7 +535,7 @@ body:not(.authed) #login-modal .modal-close{display:none}
 const LOGO='https://academiagavioes24h.com.br/apps/transferencia/favicon.ico';
 
 // Dados ao vivo (preenchidos pelo Firebase em tempo real)
-let processos=[],unidades=[],dadosUnidades={},unitThumbs={},projetos=[],colaboradores=[],isEditor=false;
+let processos=[],unidades=[],dadosUnidades={},unitThumbs={},projetos=[],colaboradores=[],sugestoes=[],faq=[],isEditor=false;
 
 // ══════════ TABS ══════════
 let activeTab='processos';
@@ -498,6 +551,8 @@ document.querySelectorAll('.nav-btn').forEach(btn=>{
     document.getElementById('search').value='';
     if(tab==='processos'){searchTerm='';renderCards();}
     if(tab==='unidades'){renderUnits('');ensureMap();}
+    if(tab==='sugestoes')renderSugestoes();
+    if(tab==='faq')renderFaq();
   });
 });
 document.getElementById('search').addEventListener('input',e=>{
@@ -967,7 +1022,7 @@ const ADMIN_EMAILS = [
 ];
 
 let _listeners=[], _listening=false;
-function clearData(){ processos=[];unidades=[];dadosUnidades={};unitThumbs={};projetos=[];colaboradores=[]; renderCards();renderUnits('');renderProjects();renderSults();updateProcCounts(); }
+function clearData(){ processos=[];unidades=[];dadosUnidades={};unitThumbs={};projetos=[];colaboradores=[];sugestoes=[];faq=[]; renderCards();renderUnits('');renderProjects();renderSults();renderSugestoes();renderFaq();updateProcCounts(); }
 function attachListeners(){
   if(_listening)return; _listening=true;
   _listeners.push(db.collection('processos').onSnapshot(s=>{
@@ -990,6 +1045,14 @@ function attachListeners(){
     colaboradores=s.docs.map(d=>({_id:d.id,...d.data()})).sort((a,b)=>(a.ordem||0)-(b.ordem||0));
     renderSults();
   }, e=>console.error('colaboradores:',e)));
+  _listeners.push(db.collection('sugestoes').onSnapshot(s=>{
+    sugestoes=s.docs.map(d=>({_id:d.id,...d.data()})).sort((a,b)=>(b.criadoEm||0)-(a.criadoEm||0));
+    renderSugestoes();
+  }, e=>console.error('sugestoes:',e)));
+  _listeners.push(db.collection('faq').onSnapshot(s=>{
+    faq=s.docs.map(d=>({_id:d.id,...d.data()})).sort((a,b)=>(a.ordem||0)-(b.ordem||0));
+    renderFaq();
+  }, e=>console.error('faq:',e)));
 }
 function detachListeners(){ _listeners.forEach(u=>{try{u()}catch(e){}}); _listeners=[]; _listening=false; }
 
@@ -1019,7 +1082,7 @@ if(db && fbauth){
   dadosUnidades={...SEED_dadosUnidades}; unitThumbs={...SEED_unitThumbs};
   projetos=SEED_projetos.map((p,i)=>({...p,_id:'p'+i,ordem:i}));
   colaboradores=SEED_colaboradores.map((c,i)=>({...c,_id:'c'+i}));
-  updateProcCounts(); renderCards(); renderUnits(''); renderProjects(); renderSults();
+  updateProcCounts(); renderCards(); renderUnits(''); renderProjects(); renderSults(); renderSugestoes(); renderFaq();
   document.getElementById('badge-unidades').textContent=unidades.length;
 }
 
@@ -1063,7 +1126,7 @@ function openEdit(title,bodyHTML,onSave){
 }
 function closeEdit(){document.getElementById('edit-modal').classList.remove('show');_editSave=null;}
 function submitEdit(){if(_editSave)_editSave();}
-function addForActiveTab(){ if(activeTab==='processos')openProcessoForm(); else if(activeTab==='unidades')openUnidadeForm(); else if(activeTab==='projetos')openProjetoForm(); }
+function addForActiveTab(){ if(activeTab==='processos')openProcessoForm(); else if(activeTab==='unidades')openUnidadeForm(); else if(activeTab==='projetos')openProjetoForm(); else if(activeTab==='faq')openFaqForm(); else if(activeTab==='sugestoes')openSugestaoForm(); }
 
 /* ---- FORMULÁRIO: PROCESSO ---- */
 function openProcessoForm(id){
@@ -1132,6 +1195,66 @@ function openProjetoForm(id){
   ()=>{
     const nome=val('pr-nome').trim(); if(!nome){alert('Informe o nome.');return;}
     saveDoc('projetos',id,{nome,status:val('pr-status'),desc:val('pr-desc'),ordem:id?(p.ordem||0):Date.now()});
+  });
+}
+
+/* ════════════════ SUGESTÕES ════════════════ */
+function fmtData(ms){ if(!ms)return''; try{ return new Date(ms).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}); }catch(e){ return ''; } }
+function renderSugestoes(){
+  const el=document.getElementById('sugestoes-list'); if(!el)return;
+  const badge=document.getElementById('badge-sugestoes'); if(badge)badge.textContent=sugestoes.length;
+  if(!sugestoes.length){ el.innerHTML=`<div class="empty"><div class="empty-icon">💡</div>Nenhuma sugestão ainda. Seja o primeiro a enviar!</div>`; return; }
+  el.innerHTML=sugestoes.map(s=>`
+    <div class="sug-card">
+      <div class="sug-top">
+        <div class="sug-sugestao">${esc(s.sugestao)}</div>
+        <span class="sug-date">${fmtData(s.criadoEm)}</span>
+      </div>
+      ${s.motivo?`<div class="sug-motivo"><strong>Exemplo / Motivo:</strong> ${esc(s.motivo)}</div>`:''}
+      <div class="sug-foot">
+        <span class="sug-autor">👤 ${esc(s.nome)||'—'}</span>
+        <span class="sug-unidade">📍 ${esc(s.unidade)||'—'}</span>
+        <div class="admin-row"><button class="admin-btn del" onclick="removeItem('sugestoes','${s._id}','${escAttr(s.sugestao).slice(0,40)}')">🗑️ Excluir</button></div>
+      </div>
+    </div>`).join('');
+}
+function openSugestaoForm(){
+  openEdit('Enviar nova sugestão',`
+    <label class="fld">Seu nome completo<input id="sg-nome" placeholder="Nome e sobrenome"></label>
+    <label class="fld">Unidade<input id="sg-unidade" placeholder="Ex.: Penha"></label>
+    <label class="fld">Sua sugestão<textarea id="sg-sugestao" rows="3" placeholder="Descreva sua sugestão"></textarea></label>
+    <label class="fld">Exemplo ou por quê<textarea id="sg-motivo" rows="3" placeholder="Dê um exemplo prático ou explique o motivo da sugestão"></textarea></label>
+    <div class="fld-hint">Todos os campos são obrigatórios.</div>`,
+  ()=>{
+    const nome=val('sg-nome').trim(), unidade=val('sg-unidade').trim(), sugestao=val('sg-sugestao').trim(), motivo=val('sg-motivo').trim();
+    if(!nome||!unidade||!sugestao||!motivo){alert('Por favor, preencha todos os campos.');return;}
+    saveDoc('sugestoes',null,{nome,unidade,sugestao,motivo,criadoEm:Date.now()});
+  });
+}
+
+/* ════════════════ FAQ ════════════════ */
+function renderFaq(){
+  const el=document.getElementById('faq-list'); if(!el)return;
+  const badge=document.getElementById('badge-faq'); if(badge)badge.textContent=faq.length;
+  if(!faq.length){ el.innerHTML=`<div class="empty"><div class="empty-icon">❓</div>Nenhuma pergunta cadastrada ainda.</div>`; return; }
+  el.innerHTML=faq.map(f=>`
+    <div class="faq-card" onclick="this.classList.toggle('open')">
+      <div class="faq-q"><span>${esc(f.pergunta)}</span><span class="faq-chev">⌄</span></div>
+      <div class="faq-a">${f.resposta||''}
+        <div class="admin-row"><button class="admin-btn" onclick="event.stopPropagation();openFaqForm('${f._id}')">✏️ Editar</button><button class="admin-btn del" onclick="event.stopPropagation();removeItem('faq','${f._id}','${escAttr(f.pergunta)}')">🗑️ Excluir</button></div>
+      </div>
+    </div>`).join('');
+}
+function openFaqForm(id){
+  const f=id?faq.find(x=>x._id===id):{pergunta:'',resposta:''};
+  if(!f){showToast('Item não encontrado');return;}
+  openEdit(id?'Editar pergunta':'Nova pergunta',`
+    <label class="fld">Pergunta<input id="fq-perg" value="${esc(f.pergunta||'')}"></label>
+    <label class="fld">Resposta<textarea id="fq-resp" rows="6">${esc(f.resposta||'')}</textarea></label>
+    <div class="fld-hint">Pode usar HTML simples, ex.: &lt;strong&gt;negrito&lt;/strong&gt; e &lt;br&gt; para quebra de linha.</div>`,
+  ()=>{
+    const pergunta=val('fq-perg').trim(); if(!pergunta){alert('Informe a pergunta.');return;}
+    saveDoc('faq',id,{pergunta,resposta:val('fq-resp'),ordem:id?(f.ordem||0):Date.now()});
   });
 }
 </script>
